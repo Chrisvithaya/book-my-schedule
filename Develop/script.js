@@ -17,24 +17,28 @@ $(function () {
 
         localStorage.setItem(timeBlock, userInput);
         console.log('time-block saved from user input' + timeBlock)
-    }
+    });
 
-    $('time-block').each(function() {
-      var timeBlock = $(this).attr('id')
-      var savedUserInput = localStorage.getItem(timeBlock)
-      var currentTime = parseInt(timeBlock.split('-')[1]);
+    $('.time-block').each(function() {
+        var timeBlock = $(this).attr('id')
+        var savedUserInput = localStorage.getItem(timeBlock)
+        var currentTime = parseInt(timeBlock.split('-')[1]);
+
+      if (savedUserInput !== null) {
+        $(this).find('.description').val(savedUserInput);
+      }
+      console.log('user input for time-block retrieved' + timeBlock);
       
-    }
-
-
-
-
-
-
-
-
-
-  });
+      if (currentTime < dayjs().hour()) {
+        $(this).addclass('past')
+      } else if (currentTime > dayjs().hour()) {
+        $(this).addclass('future')
+      } else {
+        $(this).addclass('present')
+      }
+    });
+  }); 
+ 
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
